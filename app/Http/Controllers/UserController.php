@@ -65,14 +65,17 @@ class UserController extends Controller
 
     }
 
-    // public function teste4(){
-    //     $var1 = 5; 
-    //     if ($var1 < 4){
-    //         return view('teste4');
-    //     } else {
-    //         return "NÃO É MENOR";
-    //     }
-        
-    // }
+    public function home()
+    {
+
+        return view('backend.usuarios');
+    }
+
+    public function getAll()
+    {
+        $usuarios = User::all();
+        return response()->json(array('usuarios' => $usuarios));
+    }
+
 
 }
