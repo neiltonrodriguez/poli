@@ -29,7 +29,7 @@ Route::post('/cadastrar', [UserController::class, 'cadastrar'])->name('cadastrar
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->prefix('backend')->group(function () {
-    // Route::get('/home', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/home', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias');
     Route::get('/categorias/get', [CategoriaController::class, 'getCategorias'])->name('get.categorias');
     Route::post('/categorias/add', [CategoriaController::class, 'cadastrar'])->name('add.categoria');

@@ -20,29 +20,48 @@ class FotosController extends Controller
 
     public function addFotos(Request $r)
     {
-        $foto = new Foto;
-        $foto->alt = $r->alt;
-        $image = "";
+        $imagens = $r->file('imagen');
+        foreach($imagens as $key => $image){
+            $extension = $image->extension();
+            $imageName = md5($image->getClientOriginalName() . strtotime("now")) . "." . $extension;
+            $image->move(public_path('img/fotos'), $imageName);
 
-        if ($r->hasFile('imagen')) {
-            $reqImagen = $r->file('imagen');
-            $extension = $reqImagen->extension();
-            $imageName = md5($reqImagen->getClientOriginalName() . strtotime("now")) . "." . $extension;
-            $reqImagen->move(public_path('img/fotos'), $imageName);
-            $image = $imageName;
+            $foto = new Foto;
+            $foto->alt = $r->alt;
+            $foto->img = $imageName;
+            $foto->description = $r->descricao;
+            $active = 0;
+            if ($r->active != null){
+                $active = 1;
+            }
+            $foto->active = $active;
+            $foto->id_categoria = $r->id_categoria;
+            $foto->save();
         }
+        return redirect()->route('fotos');
+        // $foto = new Foto;
+        // $foto->alt = $r->alt;
+        // $image = "";
 
-        $foto->img = $image;
-        $foto->description = $r->descricao;
-        $active = 0;
-        if ($r->active != null){
-            $active = 1;
-        }
-        $foto->active = $active;
-        $foto->id_categoria = $r->id_categoria;
-        if ($foto->save()) {
-            return redirect()->route('fotos');
-        }
+        // if ($r->hasFile('imagen')) {
+        //     $reqImagen = $r->file('imagen');
+        //     $extension = $reqImagen->extension();
+        //     $imageName = md5($reqImagen->getClientOriginalName() . strtotime("now")) . "." . $extension;
+        //     $reqImagen->move(public_path('img/fotos'), $imageName);
+        //     $image = $imageName;
+        // }
+
+        // $foto->img = $image;
+        // $foto->description = $r->descricao;
+        // $active = 0;
+        // if ($r->active != null){
+        //     $active = 1;
+        // }
+        // $foto->active = $active;
+        // $foto->id_categoria = $r->id_categoria;
+        // if ($foto->save()) {
+        //     return redirect()->route('fotos');
+        // }
     }
 
     public function deletar(Request $request)

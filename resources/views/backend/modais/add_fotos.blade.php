@@ -16,7 +16,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="imagen" class="form-label">Escolha a imagen</label>
-                        <input type="file" class="form-control-file" id="imagen" name="imagen">
+                        <input type="file" class="form-control-file" id="imagen[]" name="imagen[]" multiple>
                     </div>
                     <div class="mb-3">
                         <label for="descricao">Descrição</label>
