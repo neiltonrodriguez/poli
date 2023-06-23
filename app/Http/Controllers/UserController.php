@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\User;
+use App\Models\Perfil;
 
 
 class UserController extends Controller
@@ -52,23 +53,39 @@ class UserController extends Controller
 
     public function cadastrar(Request $r)
     {
+        // dd($r);
         $user = new User();
         $user->name = $r->nome;
         $user->email = $r->email;
         $user->password = bcrypt($r->password);
         $user->email_verified_at = now();
-        $user->perfil_id = 2;
-        $user->ativo = 0;
-        if ($user->save()){
-            return redirect()->route('login');
+        $perfil = 2;
+        if(isset($r->perfil)){
+            $perfil = $r->perfil;
         }
+        $user->perfil_id = $perfil;
+        $ativo = 0;
+        if (isset($r->active)) {
+            $ativo = $r->active;
+        }
+        $user->ativo = $ativo;
+        if (isset($r->active)) {
+            if ($user->save()) {
+                return redirect()->route('usuarios');
+            }
+        }else {
+            if ($user->save()) {
+                return redirect()->route('login');
+            }
+        }
+        
 
     }
 
     public function home()
     {
-
-        return view('backend.usuarios');
+        $perfis = Perfil::all();
+        return view('backend.usuarios', compact('perfis'));
     }
 
     public function getAll()

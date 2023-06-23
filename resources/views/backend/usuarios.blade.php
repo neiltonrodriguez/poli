@@ -8,6 +8,13 @@
 <script>
     $(document).ready(function() {
         carregarUsuarios();
+        $('#abrirModalUsuarios').click(function() {
+            $('#modalUsuarios').show();
+        });
+
+        $('#closedUsuarios').click(function() {
+            $('#modalUsuarios').hide();
+        });
 
         $(document).on('click', '#delUsuario', function() {
             Swal.fire({
@@ -36,6 +43,40 @@
                     });
                 }
             })
+
+
+
+        });
+
+        $('#btnCadUsuario').on('click', function(e) {
+            e.preventDefault();
+            let active = 0;
+            if ($("#active").is(':checked')) {
+                active = 1
+            }
+            nome = $('#nome').val();
+            perfil = $('#perfil').val();
+            email = $('#email').val();
+            password = $('#password').val();
+            $.ajax({
+                url: '/backend/usuarios/add',
+                type: 'POST',
+                data: {
+                    nome: nome,
+                    perfil: perfil,
+                    email: email,
+                    active: active,
+                    password: password,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                enctype: "application/json",
+
+                success: function(data) {
+                    $('#modalUsuarios').hide();
+                    carregarUsuarios()
+                }
+
+            });
 
 
 
@@ -86,4 +127,5 @@
     </tbody>
 
 </table>
+@include('backend.modais.add_user')
 @endsection

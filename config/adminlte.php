@@ -253,7 +253,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'backend/home',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -302,10 +302,7 @@ return [
         ],
 
         // Sidebar items:
-        [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
-        ],
+     
         [
             'text' => 'blog',
             'url'  => 'admin/blog',
@@ -313,21 +310,28 @@ return [
         ],
         ['header' => 'SERVIÇOS'],
         [
+            'text'        => 'Dashboard',
+            'url'         => 'backend/home',
+            'icon'        => 'fas fa-tachometer-alt',
+            
+            'label_color' => 'success',
+        ],
+        [
             'text'        => 'Categorias',
             'url'         => 'backend/categorias',
-            'icon'        => 'far fa-fw fa-file',
-            'label'       => 4,
+            'icon'        => 'fas fa-edit',
+            
             'label_color' => 'success',
         ],
         [
             'text' => 'fotos',
             'url'  => 'backend/fotos',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fa fa-image',
         ],
         [
             'text' => 'usuarios',
             'url'  => 'backend/usuarios',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => 'fas fa-fw fa-user',
         ],
     ],
 

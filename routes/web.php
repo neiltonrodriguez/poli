@@ -6,17 +6,6 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FotosController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 Route::get('/', function () {
     return view('frontend.home');
 });
@@ -26,7 +15,7 @@ Route::get('/registro', [UserController::class, 'registro'])->name('registro');
 Route::get('/login', [UserController::class, 'index'])->name('login');
 Route::post('/autenticar', [UserController::class, 'autenticar'])->name('autenticar');
 Route::post('/cadastrar', [UserController::class, 'cadastrar'])->name('cadastrar');
-Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->prefix('backend')->group(function () {
     Route::get('/home', [DashboardController::class, 'index'])->name('dashboard');
@@ -46,5 +35,6 @@ Route::middleware(['auth'])->prefix('backend')->group(function () {
     Route::get('/usuarios', [UserController::class, 'home'])->name('usuarios');
     Route::post('/usuarios/trash/', [UserController::class, 'deletar'])->name('usuarios.deletar');
     Route::get('/usuarios/get', [UserController::class, 'getAll'])->name('usuarios.get.all');
+    Route::post('/usuarios/add', [UserController::class, 'cadastrar'])->name('usuarios.add');
 
 });
