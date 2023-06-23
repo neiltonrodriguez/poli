@@ -8,7 +8,38 @@
 <script>
     $(document).ready(function() {
         carregarUsuarios();
-              
+
+        $(document).on('click', '#delUsuario', function() {
+            Swal.fire({
+                icon: 'warning',
+                title: 'atenção',
+                text: 'Deseja deletar essa usuário',
+                showCancelButton: true,
+                confirmButtonText: `Sim`,
+                cancelButtonText: `Cancelar`
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let id = $(this).attr('data-id');
+                    $.ajax({
+                        url: '/backend/usuarios/trash',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            id: id,
+                            _token: $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(data) {
+                            carregarUsuarios()
+
+                        }
+
+                    });
+                }
+            })
+
+
+
+        });
 
         function carregarUsuarios() {
             $.ajax({

@@ -77,5 +77,10 @@ class UserController extends Controller
         return response()->json(array('usuarios' => $usuarios));
     }
 
+    public function deletar(Request $request)
+    {
+        return User::where('id', '=', $request->id)->delete();
+    }
+
 
 }

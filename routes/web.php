@@ -44,6 +44,7 @@ Route::middleware(['auth'])->prefix('backend')->group(function () {
     Route::post('/fotos/add', [FotosController::class, 'addFotos'])->name('fotos.add');
 
     Route::get('/usuarios', [UserController::class, 'home'])->name('usuarios');
+    Route::post('/usuarios/trash/', [UserController::class, 'deletar'])->name('usuarios.deletar');
     Route::get('/usuarios/get', [UserController::class, 'getAll'])->name('usuarios.get.all');
 
 });
