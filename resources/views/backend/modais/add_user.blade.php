@@ -29,8 +29,9 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="mb-3">
-                        <input type="checkbox" name="active" id="active" value="1"> Ativo
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="active" name="active" type="checkbox">
+                        <label class="form-check-label" for="active">ativo</label>
                     </div>
 
 

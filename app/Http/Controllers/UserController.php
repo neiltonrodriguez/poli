@@ -81,54 +81,32 @@ class UserController extends Controller
 
 
     }
-    public function editar(Request $request, $id)
+    public function edit(Request $r)
     {
-        // Encontra o usuário com base no ID fornecido
-        $user = User::find($id);
+        $user = User::find($r->id);
 
-        // Verifica se o usuário existe
         if (!$user) {
             return "Usuário não encontrado";
         }
 
-        // Atualiza as propriedades do usuário com base nos dados fornecidos no formulário
-        $user->name = $request->input('nome');
-        $user->email = $request->input('email');
+        $user->name = $r->name;
+        $user->email = $r->email;
 
-        // Atualiza a senha do usuário, se fornecida
-        $password = $request->input('password');
-        if (!empty($password)) {
-            $user->password = bcrypt($password);
-        }
+        $user->password = bcrypt($r->passwordNew);
+        
 
-        // Define a data de verificação de e-mail como o momento atual
+        $user->email_verified_at = now();
         $user->email_verified_at = now();
 
-        // Define o perfil do usuário com base nos dados fornecidos no formulário
-        $perfil = $request->input('perfil', 2);
-        $user->perfil_id = $perfil;
+        $user->perfil_id = $r->perfil_id;
+        $user->ativo = $r->active;
 
-        // Define o status do usuário com base na checkbox "active" do formulário
-        $user->ativo = $request->has('active') ? 1 : 0;
-
-        // Salva as alterações no banco de dados
-        if ($user->save()) {
-            if ($request->has('active')) {
-                // Redireciona para a rota "usuarios" se a checkbox "active" estiver marcada
-                return redirect()->route('usuarios');
-            } else {
-                // Retorna a visão (view) "edit_user" com o ID do usuário
-                return view('backend.modais.edit_user', ['id' => $id]);
-            }
+        if ($user->update()) {
+            return response()->json(array('msg' => "Success"));
         } else {
-            // Retorna uma resposta de erro em caso de falha ao salvar as alterações
-            return "Erro ao salvar as alterações do usuário";
+            return response()->json(array('msg' => "Erro"));
         }
     }
-
-
-
-
 
     public function home()
     {
@@ -140,6 +118,12 @@ class UserController extends Controller
     {
         $usuarios = User::all();
         return response()->json(array('usuarios' => $usuarios));
+    }
+
+    public function getById($id)
+    {
+        $usuario = User::where('id', '=', $id)->first();
+        return response()->json(array('usuario' => $usuario));
     }
 
     public function deletar(Request $request)

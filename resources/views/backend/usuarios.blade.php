@@ -8,6 +8,8 @@
 <script>
     $(document).ready(function() {
         carregarUsuarios();
+
+
         $('#abrirModalUsuarios').click(function() {
             $('#modalUsuarios').show();
         });
@@ -82,6 +84,75 @@
 
         });
 
+
+        $(document).on('click', '#editUsuario', function() {
+            let id = $(this).attr('data-id');
+            $('#modalEditUsuario').show();
+            $('#editActive').prop('checked', false);
+            $.ajax({
+                url: '/backend/usuarios/get/' + id,
+                type: 'GET',
+                success: function(data) {
+console.log(data);
+                    $('#idUserEdit').val(data.usuario.id);
+                    $('#editNome').val(data.usuario.name);
+                    $('#editEmail').val(data.usuario.email);
+                    $('#editPerfil').val(data.usuario.perfil_id);
+                    if (data.usuario.ativo == 1) {
+                        $('#editActive').prop('checked', true);
+                    } else {
+                        $('#editActive').prop('checked', false);
+                    }
+
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+        $(document).on('click', '#closedEditUsuario', function() {
+            $('#modalEditUsuario').hide();
+            $('#editActive').prop('checked', false);
+        });
+
+        $(document).on('click', '#updateUsuario', function() {
+            let id = $('#idUserEdit').val();
+            let name = $('#editNome').val();
+            let email = $('#editEmail').val();
+            let perfil_id = $('#editPerfil').val();
+            let passwordNew = $('#passwordNew').val();
+            let active = 0;
+            if ($('#editActive').is(':checked')) {
+                active = 1;
+            }
+            console.log(active);
+            $.ajax({
+                url: '/backend/usuarios/edit',
+                type: 'POST',
+                data: {
+                    id: id,
+                    active: active,
+                    name: name,
+                    email: email,
+                    passwordNew: passwordNew,
+                    perfil_id: perfil_id,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                enctype: "application/json",
+                success: function(data) {
+                    if (data.msg == 'Success') {
+                        $('#modalEditUsuario').hide();
+                        carregarUsuarios()
+                    } else {
+                        Swal.fire('Ops!', data.msg, 'warning')
+                    }
+
+                }
+            });
+
+
+        });
+
         function carregarUsuarios() {
             $.ajax({
                 url: '/backend/usuarios/get',
@@ -94,37 +165,13 @@
                         html += '<td> ' + data.usuarios[i].email + '</td>';
                         html += '<td> ' + data.usuarios[i].perfil_id + '</td>';
                         html += data.usuarios[i].ativo == 1 ? '<td><div class="form-check form-switch"><input data-id="' + data.usuarios[i].id + '" class="form-check-input checkActive" type="checkbox" checked></div></td>' : '<td><div class="form-check form-switch"><input data-id="' + data.usuarios[i].id + '"  class="form-check-input checkActive" type="checkbox"></div></td>';
-                        html += '<td><button type="button" class="btn btn-white editUsuario" data-id="' + data.usuarios[i].id + '"><i class="fas fa-user-edit" aria-hidden="true"></i></button></td>';
+                        html += '<td><button type="button" id="editUsuario" class="btn btn-white" data-id="' + data.usuarios[i].id + '"><i class="fas fa-user-edit" aria-hidden="true"></i></button></td>';
                         html += '<td><button type="button" id="delUsuario" data-id="' + data.usuarios[i].id + '" class="btn btn-white"><i class="fa fa-trash" aria-hidden="true"></i></button></td>';
                         html += '</tr>';
 
                     }
 
                     $('#body-usuarios').html(html);
-
-                    $(document).on('click', '.editUsuario', function() {
-                        var userId = $(this).data('id');
-
-                        $('#editNome').val('');
-                        $('#editEmail').val('');
-                        $('#editPerfil').val('');
-
-                        $.ajax({
-                            url: '/backend/usuarios/' + userId,
-                            type: 'GET',
-                            success: function(data) {
-
-                                $('#editNome').val(data.name);
-                                $('#editEmail').val(data.email);
-                                $('#editPerfil').val(data.perfil_id);
-                            },
-                            error: function(xhr, status, error) {
-                                console.log(xhr.responseText);
-                            }
-                        });
-
-                        $('#modalEditUsuarios').modal('show');
-                    });
 
                 }
 

@@ -37,8 +37,9 @@ Route::middleware(['auth'])->prefix('backend')->group(function () {
     Route::get('/usuarios', [UserController::class, 'home'])->name('usuarios');
     Route::post('/usuarios/trash/', [UserController::class, 'deletar'])->name('usuarios.deletar');
     Route::get('/usuarios/get', [UserController::class, 'getAll'])->name('usuarios.get.all');
+    Route::get('/usuarios/get/{id}', [UserController::class, 'getById'])->name('usuarios.get.by.id');
     Route::post('/usuarios/add', [UserController::class, 'cadastrar'])->name('usuarios.add');
-    Route::get('/usuarios/{id}/editar', [UserController::class, 'editar'])->name('usuarios.editar');
+    Route::post('/usuarios/edit', [UserController::class, 'edit'])->name('usuarios.edit');
 
     Route::post('/usuarios/active', [UserController::class, 'active'])->name('usuarios.active');
 
