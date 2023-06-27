@@ -62,4 +62,18 @@ class CategoriaController extends Controller
             return response()->json(array('msg' => "Success"));
       }
     }
+
+    public function active(Request $r){
+        
+        $c = Categoria::where('id', '=', $r->id)->first();
+        if($c->active == 1){
+            $c->active = 0;
+        }else {
+            $c->active = 1;
+        }
+        // dd($c);
+        if ($c->save()) {
+            return response()->json(array('msg' => "Success"));
+        }
+    }
 }

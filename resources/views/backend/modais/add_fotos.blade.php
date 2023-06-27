@@ -25,7 +25,7 @@
                     <div class="mb-3">
                         <label for="alt" class="form-label">Selecione a categoria</label>
                         <select class="form-select" id="id_categoria" name="id_categoria" aria-label="Default select example">
-                            @foreach($categorias as $c)
+                            @foreach($data['categorias'] as $c)
                             <option value="{{$c->id }}">{{$c->title }}</option>
                             @endforeach
                         </select>

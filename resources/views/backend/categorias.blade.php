@@ -108,8 +108,26 @@
 
             });
 
+        });
 
 
+        $("#body-categorias").on("click", ".checkActive", function() {
+            let id = $(this).attr('data-id');
+            console.log(id);
+            $.ajax({
+                url: '/backend/categorias/active/',
+                type: 'POST',
+                data: {
+                    id: id,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                enctype: "application/json",
+
+                success: function(data) {
+                    carregarCategorias()
+                }
+
+            });
         });
 
 
@@ -124,7 +142,7 @@
                         html += '<td> ' + data.categorias[i].id + '</td>';
                         html += '<td> <img src="../img/categorias/' + data.categorias[i].img + '" width="100"></td>';
                         html += '<td> ' + data.categorias[i].title + '</td>';
-                        html += '<td> ' + data.categorias[i].active + '</td>';
+                        html += data.categorias[i].active == 1 ? '<td><div class="form-check form-switch"><input data-id="' + data.categorias[i].id + '" class="form-check-input checkActive" type="checkbox" checked></div></td>' : '<td><div class="form-check form-switch"><input data-id="' + data.categorias[i].id + '"  class="form-check-input checkActive" type="checkbox"></div></td>';
                         html += '<td><button type="button" id="delCategoria" data-id="' + data.categorias[i].id + '" class="btn btn-white"><i class="fa fa-trash" aria-hidden="true"></i></button> <button type="button" id="editCategoria" data-id="' + data.categorias[i].id + '" class="btn btn-white"><i class="fa fa-edit" aria-hidden="true"></i></button></td>';
                         html += '</tr>';
 

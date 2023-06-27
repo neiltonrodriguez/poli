@@ -93,7 +93,7 @@
                         html += '<td> ' + data.usuarios[i].name + '</td>';
                         html += '<td> ' + data.usuarios[i].email + '</td>';
                         html += '<td> ' + data.usuarios[i].perfil_id + '</td>';
-                        html += '<td> ' + data.usuarios[i].ativo + '</td>';
+                        html += data.usuarios[i].ativo == 1 ? '<td><div class="form-check form-switch"><input data-id="' + data.usuarios[i].id + '" class="form-check-input checkActive" type="checkbox" checked></div></td>' : '<td><div class="form-check form-switch"><input data-id="' + data.usuarios[i].id + '"  class="form-check-input checkActive" type="checkbox"></div></td>';
                         html += '<td><button type="button" id="delUsuario" data-id="' + data.usuarios[i].id + '" class="btn btn-white"><i class="fa fa-trash" aria-hidden="true"></i></button></td>';
                         html += '</tr>';
 
@@ -107,6 +107,25 @@
             });
 
         }
+
+        $("#body-usuarios").on("click", ".checkActive", function() {
+            let id = $(this).attr('data-id');
+            console.log(id);
+            $.ajax({
+                url: '/backend/usuarios/active/',
+                type: 'POST',
+                data: {
+                    id: id,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                enctype: "application/json",
+
+                success: function(data) {
+                    carregarFotos()
+                }
+
+            });
+        });
     });
 </script>
 <button id="abrirModalUsuarios" type="button" class="btn btn-primary">

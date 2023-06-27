@@ -99,5 +99,20 @@ class UserController extends Controller
         return User::where('id', '=', $request->id)->delete();
     }
 
+    public function active(Request $r)
+    {
+
+        $c = User::where('id', '=', $r->id)->first();
+        if ($c->ativo == 1) {
+            $c->ativo = 0;
+        } else {
+            $c->ativo = 1;
+        }
+        // dd($c);
+        if ($c->save()) {
+            return response()->json(array('msg' => "Success"));
+        }
+    }
+
 
 }

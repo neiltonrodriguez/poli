@@ -23,6 +23,7 @@ Route::middleware(['auth'])->prefix('backend')->group(function () {
     Route::get('/categorias/get', [CategoriaController::class, 'getCategorias'])->name('get.categorias');
     Route::post('/categorias/add', [CategoriaController::class, 'cadastrar'])->name('add.categoria');
     Route::post('/categorias/update/', [CategoriaController::class, 'update'])->name('update.categoria');
+    Route::post('/categorias/active/', [CategoriaController::class, 'active'])->name('active.categoria');
     Route::post('/categorias/trash/', [CategoriaController::class, 'deletar'])->name('categorias.deletar');
     Route::get('/categorias/get-by-id/{id}', [CategoriaController::class, 'getById'])->name('categorias.getById');
 
@@ -31,10 +32,12 @@ Route::middleware(['auth'])->prefix('backend')->group(function () {
     Route::get('/fotos/get-all', [FotosController::class, 'getAll'])->name('fotos.get.all');
     Route::post('/fotos/trash/', [FotosController::class, 'deletar'])->name('fotos.deletar');
     Route::post('/fotos/add', [FotosController::class, 'addFotos'])->name('fotos.add');
+    Route::post('/fotos/active/', [FotosController::class, 'active'])->name('fotos.active');
 
     Route::get('/usuarios', [UserController::class, 'home'])->name('usuarios');
     Route::post('/usuarios/trash/', [UserController::class, 'deletar'])->name('usuarios.deletar');
     Route::get('/usuarios/get', [UserController::class, 'getAll'])->name('usuarios.get.all');
     Route::post('/usuarios/add', [UserController::class, 'cadastrar'])->name('usuarios.add');
+    Route::post('/usuarios/active', [UserController::class, 'active'])->name('usuarios.active');
 
 });

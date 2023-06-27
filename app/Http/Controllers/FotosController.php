@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Foto;
 use App\Models\Categoria;
-
+use Illuminate\Support\Facades\DB;
 class FotosController extends Controller
 {
     public function index(){
         $categorias = Categoria::all();
-        return view('backend.fotos', compact('categorias'));
+        // $fotos = DB::table('foto')->paginate(3);
+        $data["categorias"] = $categorias;
+        // $data["fotos"] = $fotos;
+        return view('backend.fotos')->with('data', $data);
     }
 
     public function getAll(){
@@ -39,33 +42,26 @@ class FotosController extends Controller
             $foto->save();
         }
         return redirect()->route('fotos');
-        // $foto = new Foto;
-        // $foto->alt = $r->alt;
-        // $image = "";
-
-        // if ($r->hasFile('imagen')) {
-        //     $reqImagen = $r->file('imagen');
-        //     $extension = $reqImagen->extension();
-        //     $imageName = md5($reqImagen->getClientOriginalName() . strtotime("now")) . "." . $extension;
-        //     $reqImagen->move(public_path('img/fotos'), $imageName);
-        //     $image = $imageName;
-        // }
-
-        // $foto->img = $image;
-        // $foto->description = $r->descricao;
-        // $active = 0;
-        // if ($r->active != null){
-        //     $active = 1;
-        // }
-        // $foto->active = $active;
-        // $foto->id_categoria = $r->id_categoria;
-        // if ($foto->save()) {
-        //     return redirect()->route('fotos');
-        // }
+       
     }
 
     public function deletar(Request $request)
     {
         return Foto::where('id', '=', $request->id)->delete();
+    }
+
+
+    public function active(Request $r)
+    {
+        $c = Foto::where('id', '=', $r->id)->first();
+        if ($c->active == 1) {
+            $c->active = 0;
+        } else {
+            $c->active = 1;
+        }
+        // dd($c);
+        if ($c->save()) {
+            return response()->json(array('msg' => "Success"));
+        }
     }
 }
