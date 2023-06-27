@@ -14,7 +14,7 @@ class UserController extends Controller
     public function index(){
 
         return view('login');
-        
+
     }
 
     public function registro()
@@ -78,9 +78,57 @@ class UserController extends Controller
                 return redirect()->route('login');
             }
         }
-        
+
 
     }
+    public function editar(Request $request, $id)
+    {
+        // Encontra o usuário com base no ID fornecido
+        $user = User::find($id);
+
+        // Verifica se o usuário existe
+        if (!$user) {
+            return "Usuário não encontrado";
+        }
+
+        // Atualiza as propriedades do usuário com base nos dados fornecidos no formulário
+        $user->name = $request->input('nome');
+        $user->email = $request->input('email');
+
+        // Atualiza a senha do usuário, se fornecida
+        $password = $request->input('password');
+        if (!empty($password)) {
+            $user->password = bcrypt($password);
+        }
+
+        // Define a data de verificação de e-mail como o momento atual
+        $user->email_verified_at = now();
+
+        // Define o perfil do usuário com base nos dados fornecidos no formulário
+        $perfil = $request->input('perfil', 2);
+        $user->perfil_id = $perfil;
+
+        // Define o status do usuário com base na checkbox "active" do formulário
+        $user->ativo = $request->has('active') ? 1 : 0;
+
+        // Salva as alterações no banco de dados
+        if ($user->save()) {
+            if ($request->has('active')) {
+                // Redireciona para a rota "usuarios" se a checkbox "active" estiver marcada
+                return redirect()->route('usuarios');
+            } else {
+                // Retorna a visão (view) "edit_user" com o ID do usuário
+                return view('backend.modais.edit_user', ['id' => $id]);
+            }
+        } else {
+            // Retorna uma resposta de erro em caso de falha ao salvar as alterações
+            return "Erro ao salvar as alterações do usuário";
+        }
+    }
+
+
+
+
 
     public function home()
     {

@@ -94,12 +94,50 @@
                         html += '<td> ' + data.usuarios[i].email + '</td>';
                         html += '<td> ' + data.usuarios[i].perfil_id + '</td>';
                         html += data.usuarios[i].ativo == 1 ? '<td><div class="form-check form-switch"><input data-id="' + data.usuarios[i].id + '" class="form-check-input checkActive" type="checkbox" checked></div></td>' : '<td><div class="form-check form-switch"><input data-id="' + data.usuarios[i].id + '"  class="form-check-input checkActive" type="checkbox"></div></td>';
+                        html += '<td><button type="button" class="btn btn-white editUsuario" data-id="' + data.usuarios[i].id + '"><i class="fas fa-user-edit" aria-hidden="true"></i></button></td>';
                         html += '<td><button type="button" id="delUsuario" data-id="' + data.usuarios[i].id + '" class="btn btn-white"><i class="fa fa-trash" aria-hidden="true"></i></button></td>';
                         html += '</tr>';
 
                     }
 
                     $('#body-usuarios').html(html);
+
+                    $(document).on('click', '.editUsuario', function() {
+                        // Obter o userId a partir do atributo data-id do botão clicado
+                        var userId = $(this).data('id');
+
+                        // Limpar os campos do modal
+                        $('#editNome').val('');
+                        $('#editEmail').val('');
+                        $('#editPerfil').val('');
+
+                        // Atualizar o atributo "action" do formulário com o valor do parâmetro "id"
+                        $('#modalEditUsuarios form').attr('action', '/backend/usuarios/' + userId + '/editar');
+
+                        // Fazer uma requisição AJAX para obter os detalhes do usuário
+                        $.ajax({
+                            url: '/backend/usuarios/' + userId,
+                            type: 'GET',
+                            success: function(data) {
+                                // Preencher os campos do formulário com os dados do usuário
+                                $('#editNome').val(data.name);
+                                $('#editEmail').val(data.email);
+                                $('#editPerfil').val(data.perfil_id);
+                            },
+                            error: function(xhr, status, error) {
+                                console.log(xhr.responseText); // Exibe a resposta de erro no console
+                            }
+                        });
+
+                        // Abrir o modal de edição
+                        $('#modalEditUsuarios').modal('show');
+                    });
+
+
+
+
+
+
 
 
                 }
@@ -147,4 +185,5 @@
 
 </table>
 @include('backend.modais.add_user')
+@include('backend.modais.edit_user')
 @endsection

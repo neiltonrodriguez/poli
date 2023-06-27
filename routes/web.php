@@ -38,6 +38,8 @@ Route::middleware(['auth'])->prefix('backend')->group(function () {
     Route::post('/usuarios/trash/', [UserController::class, 'deletar'])->name('usuarios.deletar');
     Route::get('/usuarios/get', [UserController::class, 'getAll'])->name('usuarios.get.all');
     Route::post('/usuarios/add', [UserController::class, 'cadastrar'])->name('usuarios.add');
+    Route::get('/usuarios/{id}/editar', [UserController::class, 'editar'])->name('usuarios.editar');
+
     Route::post('/usuarios/active', [UserController::class, 'active'])->name('usuarios.active');
 
 });
