@@ -103,42 +103,28 @@
                     $('#body-usuarios').html(html);
 
                     $(document).on('click', '.editUsuario', function() {
-                        // Obter o userId a partir do atributo data-id do botão clicado
                         var userId = $(this).data('id');
 
-                        // Limpar os campos do modal
                         $('#editNome').val('');
                         $('#editEmail').val('');
                         $('#editPerfil').val('');
 
-                        // Atualizar o atributo "action" do formulário com o valor do parâmetro "id"
-                        $('#modalEditUsuarios form').attr('action', '/backend/usuarios/' + userId + '/editar');
-
-                        // Fazer uma requisição AJAX para obter os detalhes do usuário
                         $.ajax({
                             url: '/backend/usuarios/' + userId,
                             type: 'GET',
                             success: function(data) {
-                                // Preencher os campos do formulário com os dados do usuário
+
                                 $('#editNome').val(data.name);
                                 $('#editEmail').val(data.email);
                                 $('#editPerfil').val(data.perfil_id);
                             },
                             error: function(xhr, status, error) {
-                                console.log(xhr.responseText); // Exibe a resposta de erro no console
+                                console.log(xhr.responseText);
                             }
                         });
 
-                        // Abrir o modal de edição
                         $('#modalEditUsuarios').modal('show');
                     });
-
-
-
-
-
-
-
 
                 }
 
