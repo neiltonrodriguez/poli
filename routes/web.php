@@ -30,6 +30,7 @@ Route::middleware(['auth'])->prefix('backend')->group(function () {
 
     Route::get('/fotos', [FotosController::class, 'index'])->name('fotos');
     Route::get('/fotos/get-all', [FotosController::class, 'getAll'])->name('fotos.get.all');
+    Route::get('/fotos/get-by-filter', [FotosController::class, 'filterPhotos'])->name('fotos.filter');
     Route::post('/fotos/trash/', [FotosController::class, 'deletar'])->name('fotos.deletar');
     Route::post('/fotos/add', [FotosController::class, 'addFotos'])->name('fotos.add');
     Route::post('/fotos/active/', [FotosController::class, 'active'])->name('fotos.active');

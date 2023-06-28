@@ -17,8 +17,31 @@ class FotosController extends Controller
     }
 
     public function getAll(){
-        $fotos = Foto::all();
-        return response()->json(array('fotos' => $fotos));
+        $query = Foto::query();
+        $fotos = $query->paginate();
+        return $fotos;
+    }
+
+    public function filterPhotos(Request $filtro)
+    {
+        // dd($filtro);
+        $query = Foto::query();
+        if ($filtro->has('active')) {
+            $query->where('active', '=', $filtro->active);
+        }
+
+        if ($filtro->has('search')) {
+            $query->where('alt', 'LIKE', '%' . $filtro->search . '%');
+        }
+
+        if ($filtro->has('categoria') && $filtro->categoria != 0) {
+            $query->where('id_categoria', '=', $filtro->categoria);
+        }
+        
+
+        $fotos = $query->paginate();
+       
+        return  $fotos;
     }
 
     public function addFotos(Request $r)
