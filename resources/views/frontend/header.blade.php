@@ -40,9 +40,9 @@
 
     <div class="banner">
         <div class="container">
-            <h1>Bootstrap 4 Navbar</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec elit ex. Etiam elementum lectus et tempor molestie.</p>
-            <a href="#content" class="button button-primary">Learn More</a>
+            <h1>TOLDOS, COBERTURAS e POLICARBONATOS</h1>
+            <p>Venha para a empresa mais conceituada no ramo de fabricação e instalação de toldos</p>
+            <a href="#content" class="button button-primary">Entre em contato</a>
         </div>
     </div>
 </header>

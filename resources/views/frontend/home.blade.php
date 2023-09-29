@@ -14,6 +14,16 @@
 <body>
     @include('frontend.header')
     <main>
+        <div class="row">
+            <div class="col-md-6">
+                @include('frontend.carrossel')
+            </div>
+            <div class="col-md-6">
+
+            </div>
+        </div>
+
+
         <section id="content" class="content">
             <div class="container">
                 <div class="row">

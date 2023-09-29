@@ -109,11 +109,11 @@
                     }
 
                     $('#body-fotos').html(html);
-                    let pag = '';
-                    for (let i = 0; i < result.links.length; i++) {
-                        pag += '<li><a href="' + result.links[i].url + '">' + result.links[i].label + '</a> </li>';
-                    }
-                    $('#linksPag').html(pag);
+                    // let pag = '';
+                    // for (let i = 0; i < result.links.length; i++) {
+                    //     pag += '<li><a href="' + result.links[i].url + '">' + result.links[i].label + '</a> </li>';
+                    // }
+                    // $('#linksPag').html(pag);
 
 
                 }

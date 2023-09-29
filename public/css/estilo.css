@@ -31,7 +31,7 @@ p {
 
 .button-primary {
     position: relative;
-    background-color: #c0ca33;
+    background-color: #1973e1;
     color: #fff;
     font-size: 1.8rem;
     font-weight: 700;
@@ -40,7 +40,7 @@ p {
 }
 
 .button-primary:hover {
-    color: #c0ca33;
+    color: #0febfb;
     text-decoration: none;
 }
 
@@ -80,8 +80,8 @@ p {
 
 .header-area {
     position: relative;
-    height: 100vh;
-    background: #3f8bdc;
+    height: 80vh;
+    background: #011328;
     background-attachment: fixed;
     background-position: center center;
     background-repeat: no-repear;
@@ -89,6 +89,8 @@ p {
 }
 
 .banner {
+    background-image: url("../img/bg.jpg");
+    background-size: cover;
     display: flex;
     align-items: center;
     position: relative;
@@ -380,3 +382,4 @@ p {
         transform: scaleY(1);
     }
 }
+
